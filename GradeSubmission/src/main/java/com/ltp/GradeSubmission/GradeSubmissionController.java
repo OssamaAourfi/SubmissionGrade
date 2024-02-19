@@ -14,17 +14,18 @@ import java.util.List;
 public class GradeSubmissionController {
 
     List<Grade> studentGrades = new ArrayList<>();
+
     @GetMapping("/")
-    public String gradeForm(Model model , @RequestParam(required = false) String name){
+    public String gradeForm(Model model , @RequestParam(required = false) String id){
 
         model.addAttribute("grade",
-                getGradeIndex(name)==-1000?new Grade():studentGrades.get(getGradeIndex(name)));
+                getGradeIndex(id)==Constants.NOT_FOUND?new Grade():studentGrades.get(getGradeIndex(id)));
         return "form";
     }
     @PostMapping("/handleSubmit")
     public String submitForm(Grade grade){
-        int index = getGradeIndex(grade.getStudent());
-        if(index==-1000){
+        int index = getGradeIndex(grade.getId());
+        if(index==Constants.NOT_FOUND){
             studentGrades.add(grade);
         }else{
             studentGrades.set(index,grade);
@@ -39,11 +40,11 @@ public class GradeSubmissionController {
         return "grades";
     }
 
-    public Integer getGradeIndex(String name){
+    public Integer getGradeIndex(String id){
         for (int i = 0; i < studentGrades.size(); i++) {
-            if(studentGrades.get(i).getStudent().equals(name))
+            if(studentGrades.get(i).getId().equals(id))
                 return i;
         }
-        return -1000;
+        return Constants.NOT_FOUND;
     }
 }
