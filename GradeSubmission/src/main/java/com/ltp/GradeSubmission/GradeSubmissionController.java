@@ -17,9 +17,9 @@ public class GradeSubmissionController {
 
     @GetMapping("/")
     public String gradeForm(Model model , @RequestParam(required = false) String id){
-
+        int index = getGradeIndex(id);
         model.addAttribute("grade",
-                getGradeIndex(id)==Constants.NOT_FOUND?new Grade():studentGrades.get(getGradeIndex(id)));
+                index==Constants.NOT_FOUND?new Grade():studentGrades.get(index));
         return "form";
     }
     @PostMapping("/handleSubmit")

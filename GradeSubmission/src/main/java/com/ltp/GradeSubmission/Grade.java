@@ -1,9 +1,13 @@
 package com.ltp.GradeSubmission;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.UUID;
 
 public class Grade {
+    @NotBlank(message="Name cannot be blank")
     private String Student;
+    @NotBlank(message="Subject cannot be blank")
     private String Subject;
     private String Score;
     private String id;
