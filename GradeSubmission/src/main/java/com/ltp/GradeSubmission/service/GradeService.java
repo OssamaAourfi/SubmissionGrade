@@ -27,4 +27,16 @@ public class GradeService {
         }
         return Constants.NOT_FOUND;
     }
+    public Grade getGradeById(String id){
+        int index = getGradeIndex(id);
+        return index== Constants.NOT_FOUND?new Grade(): getGrade(index);
+    }
+    public void submitGrade(Grade grade){
+        int index = getGradeIndex(grade.getId());
+        if(index==Constants.NOT_FOUND){
+           addGrade(grade);
+        }else{
+            updateGrade(grade,index);
+        }
+    }
 }

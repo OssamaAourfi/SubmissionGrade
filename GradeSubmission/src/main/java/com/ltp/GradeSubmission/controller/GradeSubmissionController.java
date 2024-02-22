@@ -23,21 +23,15 @@ public class GradeSubmissionController {
 
     @GetMapping("/")
     public String gradeForm(Model model , @RequestParam(required = false) String id){
-        int index = gradeService.getGradeIndex(id);
-        model.addAttribute("grade",
-                index== Constants.NOT_FOUND?new Grade(): gradeService.getGrade(index));
+
+        model.addAttribute("grade", gradeService.getGradeById(id));
         return "form";
     }
     @PostMapping("/handleSubmit")
     public String submitForm(@Valid  Grade grade, BindingResult result){
 
         if(result.hasErrors()) return "form";
-        int index = gradeService.getGradeIndex(grade.getId());
-        if(index==Constants.NOT_FOUND){
-            gradeService.addGrade(grade);
-        }else{
-            gradeService.updateGrade(grade,index);
-        }
+        gradeService.submitGrade(grade);
 
         return "redirect:/grades";
     }
